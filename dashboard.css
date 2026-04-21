@@ -1,0 +1,452 @@
+/* ============================================================
+   Philippine Holidays 2025 — Dashboard Stylesheet
+   ============================================================ */
+
+/* ── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ph-blue:        #0038A8;
+  --ph-red:         #C1244B;
+  --ph-gold:        #FCD116;
+  --bg-primary:     #ffffff;
+  --bg-secondary:   #f5f7fa;
+  --bg-tertiary:    #eef1f7;
+  --text-primary:   #1a1a2e;
+  --text-secondary: #555770;
+  --text-muted:     #9496a1;
+  --border:         rgba(0,0,0,0.09);
+  --radius-sm:      6px;
+  --radius-md:      10px;
+  --radius-lg:      14px;
+  --shadow-sm:      0 1px 3px rgba(0,0,0,0.07);
+  --shadow-md:      0 4px 16px rgba(0,0,0,0.08);
+  --font:           'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary:     #17192b;
+    --bg-secondary:   #1e2135;
+    --bg-tertiary:    #252840;
+    --text-primary:   #eeeef5;
+    --text-secondary: #9a9bb8;
+    --text-muted:     #5e5f7a;
+    --border:         rgba(255,255,255,0.08);
+    --shadow-sm:      0 1px 3px rgba(0,0,0,0.3);
+    --shadow-md:      0 4px 16px rgba(0,0,0,0.4);
+  }
+}
+
+body {
+  font-family: var(--font);
+  font-size: 15px;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── Layout ───────────────────────────────────────────────── */
+.dashboard {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px solid var(--ph-blue);
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.flag-stripe {
+  width: 6px;
+  height: 52px;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, var(--ph-blue) 50%, var(--ph-red) 50%);
+}
+
+.header-title h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.header-title p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.header-year {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--ph-blue);
+  opacity: 0.18;
+  letter-spacing: -2px;
+  user-select: none;
+}
+
+/* ── Metric Cards ─────────────────────────────────────────── */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  background: var(--bg-primary);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1rem;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.metric-card.blue::before  { background: var(--ph-blue); }
+.metric-card.red::before   { background: var(--ph-red); }
+.metric-card.gold::before  { background: var(--ph-gold); }
+.metric-card.green::before { background: #1d9e75; }
+
+.metric-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.metric-value {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.metric-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 5px;
+}
+
+/* ── Tabs ─────────────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+
+.tab {
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tab:hover { color: var(--ph-blue); }
+
+.tab.active {
+  color: var(--ph-blue);
+  border-bottom-color: var(--ph-blue);
+  font-weight: 600;
+}
+
+/* ── Filter Chips ─────────────────────────────────────────── */
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.chip {
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chip:hover { border-color: var(--ph-blue); color: var(--ph-blue); }
+
+.chip.active {
+  background: var(--ph-blue);
+  border-color: var(--ph-blue);
+  color: #fff;
+}
+
+/* ── Card ─────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-primary);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+/* ── Holiday Table ────────────────────────────────────────── */
+.holiday-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.holiday-table thead th {
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.holiday-table tbody tr {
+  border-bottom: 0.5px solid var(--border);
+  transition: background 0.15s;
+}
+
+.holiday-table tbody tr:last-child { border-bottom: none; }
+
+.holiday-table tbody tr:hover { background: var(--bg-secondary); }
+
+.holiday-table td {
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.holiday-table .col-date { color: var(--text-secondary); font-size: 13px; width: 80px; }
+.holiday-table .col-day  { color: var(--text-muted);     font-size: 12px; width: 50px; }
+
+/* ── Badges ───────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 20px;
+}
+
+.badge-regular {
+  background: #e6f1fb;
+  color: #185fa5;
+}
+
+.badge-special {
+  background: #faeeda;
+  color: #854f0b;
+}
+
+.badge-long {
+  background: #eaf3de;
+  color: #27500a;
+}
+
+@media (prefers-color-scheme: dark) {
+  .badge-regular { background: #0c447c; color: #b5d4f4; }
+  .badge-special { background: #633806; color: #fac775; }
+  .badge-long    { background: #27500a; color: #c0dd97; }
+}
+
+/* ── Long Weekend Cards ───────────────────────────────────── */
+.lw-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.lw-card {
+  background: var(--bg-primary);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+  border-left: 3px solid var(--ph-gold);
+}
+
+.lw-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.lw-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.lw-days-badge {
+  background: #eaf3de;
+  color: #27500a;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.lw-dates {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.lw-tip {
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+}
+
+/* ── Bar Chart ────────────────────────────────────────────── */
+.bar-chart { padding: 1.25rem; }
+
+.bar-chart-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 9px;
+}
+
+.bar-month {
+  font-size: 12px;
+  color: var(--text-secondary);
+  width: 28px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.bar-track {
+  flex: 1;
+  height: 18px;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+}
+
+.bar-fill-regular {
+  background: var(--ph-blue);
+  height: 100%;
+  transition: width 0.6s ease;
+}
+
+.bar-fill-special {
+  background: var(--ph-gold);
+  height: 100%;
+  transition: width 0.6s ease;
+}
+
+.bar-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  width: 18px;
+  text-align: left;
+  flex-shrink: 0;
+}
+
+/* ── Legend ───────────────────────────────────────────────── */
+.legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border-top: 0.5px solid var(--border);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Source note ──────────────────────────────────────────── */
+.source-note {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 1.5rem;
+  text-align: center;
+  font-style: italic;
+}
+
+/* ── Tab Content ──────────────────────────────────────────── */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ── Two-column grid ──────────────────────────────────────── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .two-col { grid-template-columns: 1fr; }
+  .header-year { display: none; }
+  .tab { padding: 8px 12px; font-size: 13px; }
+}
