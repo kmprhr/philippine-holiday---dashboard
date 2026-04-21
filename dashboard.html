@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Philippine Holidays 2025</title>
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ph-blue:  #0038A8;
+      --ph-red:   #C1244B;
+      --ph-gold:  #FCD116;
+      --bg:       #f5f7fa;
+      --card:     #ffffff;
+      --border:   rgba(0,0,0,0.09);
+      --text:     #1a1a2e;
+      --muted:    #888;
+      --sub:      #555770;
+      --radius:   12px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:    #13151f;
+        --card:  #1e2135;
+        --border:rgba(255,255,255,0.08);
+        --text:  #eeeef5;
+        --muted: #5e5f7a;
+        --sub:   #9a9bb8;
+      }
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Dashboard wrapper ── */
+    .dashboard {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 3px solid var(--ph-blue);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 14px; }
+
+    .flag-bar {
+      width: 5px;
+      height: 50px;
+      border-radius: 3px;
+      background: linear-gradient(to bottom, var(--ph-blue) 50%, var(--ph-red) 50%);
+    }
+
+    .header h1 { font-size: 1.4rem; font-weight: 700; }
+    .header p  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .header-year {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--ph-blue);
+      opacity: 0.15;
+      letter-spacing: -3px;
+    }
+
+    /* ── Metric cards ── */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+
+    .metric {
+      background: var(--card);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    .metric.blue::before  { background: var(--ph-blue); }
+    .metric.red::before   { background: var(--ph-red);  }
+    .metric.gold::before  { background: var(--ph-gold); }
+    .metric.green::before { background: #1d9e75; }
+
+    .metric-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .metric-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── Tabs ── */
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--sub);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      cursor: pointer;
+    }
+
+    .tab:hover { color: var(--ph-blue); }
+
+    .tab.active {
+      color: var(--ph-blue);
+      border-bottom-color: var(--ph-blue);
+      font-weight: 600;
+    }
+
+    /* ── Tab content ── */
+    .tab-content          { display: none; }
+    .tab-content.active   { display: block; }
+
+    /* ── Filter chips ── */
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .chip {
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--sub);
+      cursor: pointer;
+    }
+
+    .chip:hover { border-color: var(--ph-blue); color: var(--ph-blue); }
+
+    .chip.active {
+      background: var(--ph-blue);
+      border-color: var(--ph-blue);
+      color: #fff;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--card);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    /* ── Table ── */
+    .htable { width: 100%; border-collapse: collapse; }
+
+    .htable thead th {
+      padding: 10px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      background: var(--bg);
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .htable tbody tr { border-bottom: 0.5px solid var(--border); }
+    .htable tbody tr:last-child { border-bottom: none; }
+    .htable tbody tr:hover { background: var(--bg); }
+
+    .htable td {
+      padding: 10px 14px;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    .col-date { color: var(--sub);   font-size: 13px; width: 75px; }
+    .col-day  { color: var(--muted); font-size: 12px; width: 45px; }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: 20px;
+    }
+
+    .badge-regular { background: #e6f1fb; color: #185fa5; }
+    .badge-special { background: #faeeda; color: #854f0b; }
+    .badge-long    { background: #eaf3de; color: #27500a; }
+
+    @media (prefers-color-scheme: dark) {
+      .badge-regular { background: #0c447c; color: #b5d4f4; }
+      .badge-special { background: #633806; color: #fac775; }
+      .badge-long    { background: #27500a; color: #c0dd97; }
+    }
+
+    /* ── Long weekend cards ── */
+    .lw-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 12px;
+    }
+
+    .lw-card {
+      background: var(--card);
+      border: 0.5px solid var(--border);
+      border-left: 3px solid var(--ph-gold);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+    }
+
+    .lw-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .lw-name  { font-size: 14px; font-weight: 600; line-height: 1.3; }
+    .lw-pill  { background: #eaf3de; color: #27500a; font-size: 13px; font-weight: 700; padding: 2px 10px; border-radius: 20px; white-space: nowrap; }
+    .lw-dates { font-size: 12px; color: var(--muted); margin-bottom: 7px; }
+    .lw-tip   { font-size: 12px; color: var(--sub); background: var(--bg); border-radius: 6px; padding: 6px 10px; }
+
+    /* ── Bar chart ── */
+    .bar-section  { padding: 1.25rem; }
+    .bar-title    { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 1rem; }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 9px;
+    }
+
+    .bar-month { font-size: 12px; color: var(--sub); width: 28px; text-align: right; flex-shrink: 0; }
+    .bar-track { flex: 1; height: 18px; background: var(--bg); border-radius: 4px; overflow: hidden; display: flex; }
+    .bar-reg   { background: var(--ph-blue); height: 100%; }
+    .bar-spec  { background: var(--ph-gold); height: 100%; }
+    .bar-count { font-size: 12px; font-weight: 600; color: var(--sub); width: 20px; }
+
+    .legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 1rem 1.25rem;
+      border-top: 0.5px solid var(--border);
+    }
+
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--sub); }
+    .legend-dot  { width: 10px; height: 10px; border-radius: 2px; }
+
+    /* ── Footer note ── */
+    .note {
+      margin-top: 1.5rem;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+      .header-year { display: none; }
+      .tab { padding: 8px 12px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+<main class="dashboard">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <div class="flag-bar"></div>
+      <div>
+        <h1>🇵🇭 Philippine Holidays 2025</h1>
+        <p>Official Regular &amp; Special Non-Working Holidays</p>
+      </div>
+    </div>
+    <div class="header-year">2025</div>
+  </header>
+
+  <!-- KPI Cards -->
+  <section class="metrics">
+    <div class="metric blue">
+      <div class="metric-label">Total Holidays</div>
+      <div class="metric-value">22</div>
+      <div class="metric-sub">declared days off</div>
+    </div>
+    <div class="metric blue">
+      <div class="metric-label">Regular</div>
+      <div class="metric-value">12</div>
+      <div class="metric-sub">100% paid</div>
+    </div>
+    <div class="metric gold">
+      <div class="metric-label">Special NWH</div>
+      <div class="metric-value">10</div>
+      <div class="metric-sub">no work, no pay</div>
+    </div>
+    <div class="metric green">
+      <div class="metric-label">Long Weekends</div>
+      <div class="metric-value">8</div>
+      <div class="metric-sub">3–9 day breaks</div>
+    </div>
+    <div class="metric red">
+      <div class="metric-label">Best Streak</div>
+      <div class="metric-value">9</div>
+      <div class="metric-sub">days (Christmas)</div>
+    </div>
+  </section>
+
+  <!-- Tabs -->
+  <nav class="tabs">
+    <button class="tab active" onclick="showTab('holidays', this)">Holiday List</button>
+    <button class="tab"        onclick="showTab('longwknd', this)">Long Weekends</button>
+    <button class="tab"        onclick="showTab('monthly',  this)">Monthly Spread</button>
+  </nav>
+
+  <!-- Tab 1: Holiday List -->
+  <div id="tab-holidays" class="tab-content active">
+    <div class="filters">
+      <button class="chip active" onclick="filter(this,'all')">All</button>
+      <button class="chip"        onclick="filter(this,'regular')">Regular</button>
+      <button class="chip"        onclick="filter(this,'special')">Special NWH</button>
+      <button class="chip"        onclick="filter(this,'long')">Long Weekend</button>
+    </div>
+    <div class="card">
+      <table class="htable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Day</th>
+            <th>Holiday</th>
+            <th>Type</th>
+            <th>Long Weekend?</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab 2: Long Weekends -->
+  <div id="tab-longwknd" class="tab-content">
+    <div class="lw-grid" id="lw-grid"></div>
+  </div>
+
+  <!-- Tab 3: Monthly Spread -->
+  <div id="tab-monthly" class="tab-content">
+    <div class="card">
+      <div class="bar-section">
+        <div class="bar-title">Holidays per month</div>
+        <div id="bars"></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-dot" style="background:#0038A8"></span> Regular</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#FCD116"></span> Special NWH</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="note">Source: Presidential Proclamations · Islamic holiday dates are tentative pending NAMRIA moon sighting.</p>
+
+</main>
+
+<script>
+  const HOLIDAYS = [
+    { date:"Jan 1",  day:"Wed", name:"New Year's Day",                       type:"regular", long:false },
+    { date:"Jan 23", day:"Thu", name:"Chinese New Year",                      type:"special", long:true  },
+    { date:"Feb 25", day:"Tue", name:"EDSA People Power Revolution",          type:"special", long:false },
+    { date:"Apr 9",  day:"Wed", name:"Araw ng Kagitingan",                    type:"regular", long:true  },
+    { date:"Apr 17", day:"Thu", name:"Maundy Thursday",                       type:"regular", long:true  },
+    { date:"Apr 18", day:"Fri", name:"Good Friday",                           type:"regular", long:true  },
+    { date:"Apr 19", day:"Sat", name:"Black Saturday",                        type:"special", long:true  },
+    { date:"May 1",  day:"Thu", name:"Labor Day",                             type:"regular", long:true  },
+    { date:"Jun 12", day:"Thu", name:"Independence Day",                      type:"regular", long:true  },
+    { date:"Aug 21", day:"Thu", name:"Ninoy Aquino Day",                      type:"special", long:true  },
+    { date:"Aug 25", day:"Mon", name:"National Heroes Day",                   type:"regular", long:false },
+    { date:"Oct 31", day:"Fri", name:"All Saints' Day Eve",                   type:"special", long:true  },
+    { date:"Nov 1",  day:"Sat", name:"All Saints' Day",                       type:"regular", long:true  },
+    { date:"Nov 2",  day:"Sun", name:"All Souls' Day",                        type:"special", long:true  },
+    { date:"Nov 30", day:"Sun", name:"Bonifacio Day",                         type:"regular", long:false },
+    { date:"Dec 8",  day:"Mon", name:"Feast of the Immaculate Conception",    type:"special", long:false },
+    { date:"Dec 24", day:"Wed", name:"Christmas Eve",                         type:"special", long:true  },
+    { date:"Dec 25", day:"Thu", name:"Christmas Day",                         type:"regular", long:true  },
+    { date:"Dec 26", day:"Fri", name:"Additional Special Day",                type:"special", long:true  },
+    { date:"Dec 29", day:"Mon", name:"Eid'l Adha (tentative)",                type:"regular", long:false },
+    { date:"Dec 30", day:"Tue", name:"Rizal Day",                             type:"regular", long:true  },
+    { date:"Dec 31", day:"Wed", name:"New Year's Eve",                        type:"special", long:true  },
+  ];
+
+  const LONG_WEEKENDS = [
+    { name:"Chinese New Year Weekend",         dates:"Jan 22–26",    days:5, tip:"Take Jan 24 (Fri) off for a 5-day break" },
+    { name:"Holy Week",                        dates:"Apr 17–20",    days:4, tip:"No extra leave needed — enjoy 4 days" },
+    { name:"Araw ng Kagitingan + Holy Week",   dates:"Apr 9–20",     days:5, tip:"Take Apr 10–11 for a 12-day mega stretch" },
+    { name:"Labor Day Bridge",                 dates:"May 1–4",      days:4, tip:"Take May 2 (Fri) off for a 4-day break" },
+    { name:"Independence Day Weekend",         dates:"Jun 12–15",    days:4, tip:"Take Jun 13 (Fri) off for a 4-day break" },
+    { name:"Ninoy Aquino Day Weekend",         dates:"Aug 21–24",    days:4, tip:"Take Aug 22 (Fri) off for a 4-day break" },
+    { name:"All Saints' / All Souls' Weekend", dates:"Oct 31–Nov 2", days:3, tip:"No leave needed — 3-day break" },
+    { name:"Christmas–New Year",               dates:"Dec 24–Jan 1", days:9, tip:"Biggest break of the year!" },
+  ];
+
+  const MONTHS   = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const MON_IDX  = { Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11 };
+
+  function renderTable(f) {
+    const rows = HOLIDAYS.filter(h =>
+      f === 'all' ? true : f === 'long' ? h.long : h.type === f
+    );
+    document.getElementById('tbody').innerHTML = rows.map(h => `
+      <tr>
+        <td class="col-date">${h.date}</td>
+        <td class="col-day">${h.day}</td>
+        <td>${h.name}</td>
+        <td><span class="badge badge-${h.type}">${h.type === 'regular' ? 'Regular' : 'Special'}</span></td>
+        <td>${h.long ? '<span class="badge badge-long">Yes ✓</span>' : '<span style="color:var(--muted)">—</span>'}</td>
+      </tr>`).join('');
+  }
+
+  function renderLW() {
+    document.getElementById('lw-grid').innerHTML = LONG_WEEKENDS.map(lw => `
+      <div class="lw-card">
+        <div class="lw-head">
+          <div class="lw-name">${lw.name}</div>
+          <span class="lw-pill">${lw.days} days</span>
+        </div>
+        <div class="lw-dates">${lw.dates}</div>
+        <div class="lw-tip">💡 ${lw.tip}</div>
+      </div>`).join('');
+  }
+
+  function renderBars() {
+    const reg = new Array(12).fill(0), spec = new Array(12).fill(0);
+    HOLIDAYS.forEach(h => {
+      const m = MON_IDX[h.date.split(' ')[0]];
+      h.type === 'regular' ? reg[m]++ : spec[m]++;
+    });
+    const max = Math.max(...reg.map((r,i) => r + spec[i]));
+    document.getElementById('bars').innerHTML = MONTHS.map((m,i) => {
+      const rp = max ? Math.round(reg[i]  / max * 100) : 0;
+      const sp = max ? Math.round(spec[i] / max * 100) : 0;
+      return `<div class="bar-row">
+        <span class="bar-month">${m}</span>
+        <div class="bar-track">
+          <div class="bar-reg"  style="width:${rp}%"></div>
+          <div class="bar-spec" style="width:${sp}%"></div>
+        </div>
+        <span class="bar-count">${reg[i]+spec[i] || '—'}</span>
+      </div>`;
+    }).join('');
+  }
+
+  function showTab(name, btn) {
+    document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(e => e.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function filter(btn, f) {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    renderTable(f);
+  }
+
+  renderTable('all');
+  renderLW();
+  renderBars();
+</script>
+</body>
+</html>
